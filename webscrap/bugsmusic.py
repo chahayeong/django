@@ -8,10 +8,9 @@ class BugsMusic(object):
     def __str__(self):
         return self.url
 
-    @staticmethod
-    def ranking(url, category):
-        print(f'URL 출력: {url}')
-        soup = BeautifulSoup(urlopen(url), 'lxml')
+    def ranking(self, url, category):
+        print(f'URL 출력: {self.url}')
+        soup = BeautifulSoup(urlopen(self.url), 'lxml')
         cate = category.lower()
 
         print(f'------------{cate.upper()} RANKING------------')
