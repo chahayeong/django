@@ -10,6 +10,7 @@ class bugs2(object):
     title_list = []
     artist_list = []
     dict = {}
+    df = pd.DataFrame()
 
     def set_url(self, detail):
         self.url = requests.get(f'{self.url}{detail}', headers=self.headers).text
@@ -28,26 +29,30 @@ class bugs2(object):
             self.artist_list.append(i.find("a").text)
 
     def insert_dict(self):
+        ''' 같은방법
         for i in range(0, len(self.title_list)):
             self.dict[self.title_list[i]] = self.artist_list[i]
+        '''
+        for i, j in enumerate(self.title_list):
+            self.dict[j] = self.artist_list[i]
 
-        for j in self.dict.keys():
-            print(j, "-", self.dict[j])
+    def to_frame(self):
+        self.df = pd.DataFrame(self.dict, index=[0])
+        print(self.df)
 
     def csv_save(self):
-        df = pd.DataFrame(self.dict, index=[0])
-        df.to_csv("bugs_racking.csv", mode='w')
+        path = './data/bucs.csv'
+        self.df.to_csv(path, sep=',', na_rep='NaN')
 
     def csv_read(self):
-        dataset = pd.read_csv("bugs_racking.csv")
-        print(dataset)
-
+        self.df = pd.read_csv("bugs_racking.csv")
+        print(self.df)
 
     @staticmethod
     def main():
         bugs = bugs2()
         while 1:
-            menu = input('0-exit, 1-input time, 2-output, 3.dictionary, 4.csv save, 5.csv read')
+            menu = input('0-exit, 1-input time, 2-output, 3.dictionary, 4.data frame, 5.csv read')
             if menu == '0':
                 break
             elif menu == '1':

@@ -6,6 +6,7 @@ class melon2(object):
     url = 'https://www.melon.com/chart/index.htm?dayTime='
     headers = {'User-Agent': 'Mozilla/5.0'}
     class_name = []
+    title_ls = []
 
     def set_url(self, time):
         self.url = requests.get(f'{self.url}{time}', headers=self.headers).text
@@ -20,12 +21,16 @@ class melon2(object):
         ls = soup.find_all("div", {"class": self.class_name[1]})
         for i in ls:
             print(f' {i.find("a").text}')
+       '''     
+    def to_dictionary(self):
+        for i in range(0, len(self.title_ls)):
+        '''
 
     @staticmethod
     def main():
         melon = melon2()
         while 1:
-            menu = input('0-exit, 1-input time, 2-output')
+            menu = input('0-exit, 1-input time, 2-output, 3-data dictionary  4-data frame, 5.read csv')
             if menu == '0':
                 break
             elif menu == '1':
@@ -34,6 +39,10 @@ class melon2(object):
                 melon.class_name.append('ellipsis rank01')
                 melon.class_name.append('ellipsis rank02')
                 melon.get_ranking()
+            elif menu == '3':
+                pass
+            elif menu == '4':
+                pass
             else:
                 print('Wrong number')
                 continue
