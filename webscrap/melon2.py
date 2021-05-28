@@ -21,10 +21,10 @@ class melon2(object):
         ls = soup.find_all("div", {"class": self.class_name[1]})
         for i in ls:
             print(f' {i.find("a").text}')
-       '''     
+
     def to_dictionary(self):
         for i in range(0, len(self.title_ls)):
-        '''
+            pass
 
     @staticmethod
     def main():
