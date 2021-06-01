@@ -17,10 +17,31 @@ class Controller(object):
     def preprocess(self, train, test):
         service = self.service
         this = self.dataset
+        # 초기 모델 생성
         this.train = service.new_model(train)
         this.test = service.new_model(test)
-        print(f'Train 의 type은 {type(this.train)} 이다.')
-        print(f'Train 의 column 은 {this.test.columns} 이다.')
-        print(f'Test 의 상위 5개 데이터는 {this.train} 이다.')
-        print(f'Test 의 하위 5개 데이터는 {this.test.columns} 이다.')
+
+        # 불필요한 feature (Cabip, Ticket) 제거
+        this = service.drop_feature(this, 'Cabin')
+        this = service.drop_feature(this, 'Ticket')
+
+        # narminal, ordinal 로 정형화
+        this = service.embarked_nominal(this)
+        this = service.title_norminal(this)
+
+        # 불필요한 feature (Name) 제거
+        this = service.drop_feature(this, 'Name')
+        this = service.gender_norminal(this)
+        self.print_this(this)
+
         return this
+
+    @staticmethod
+    def print_this(this):
+        print('*'*100)
+        print(f'Train 의 type 은 {type(this.train)} 이다.')
+        print(f'Train 의 column 은 {this.train.columns} 이다.')
+        print(f'Train 의 상위 5개 행은 {this.train.head()} 이다.')
+        # print(f'Test 의 Type 은 {type(this.test)} 이다.')
+        # print(f'Test 의 colomn 은 {this.test.columns} 이다.')
+        # print(f'Test 의 상위 5개 행은 {this.test.head()} 이다.')
